@@ -1,0 +1,9 @@
+imageio==2.8.0
+cryptography==2.8
+docopt==0.6.2
+pyfiglet==0.8.post1
+bitstring==3.1.6
+opencv_python
+imgaug==0.4.0
+numpy==1.18.1
+PyInquirer==1.0.3
