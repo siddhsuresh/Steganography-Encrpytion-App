@@ -110,8 +110,7 @@ export default function HeroImageBackground() {
 
         <Container size={640}>
           <Text size="lg" className={classes.description}>
-            Build more reliable software with AI companion. AI is also trained to detect lazy
-            developers who do nothing and just complain on Twitter.
+          Securely hide your secrets in plain sight with our image encryption software
           </Text>
         </Container>
 
@@ -119,7 +118,7 @@ export default function HeroImageBackground() {
           <Button className={classes.control} variant="white" size="lg">Get started
           </Button>
           <Button className={cx(classes.control, classes.secondaryControl)} size="lg">
-            Live demo
+            Learn how to use 
           </Button>
         </div>
       </div>
