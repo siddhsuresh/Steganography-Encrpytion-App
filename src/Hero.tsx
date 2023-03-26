@@ -9,7 +9,7 @@ const useStyles = createStyles((theme) => ({
     width: '100%',
     height: '400px',
     backgroundImage:
-      'url(https://images.unsplash.com/photo-1573164713988-8665fc963095?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=980&q=80)',
+      'url(https://images.unsplash.com/photo-1542903660-eedba2cda473?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80)',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
 
@@ -102,7 +102,7 @@ export default function HeroImageBackground() {
 
       <div className={classes.inner}>
         <Title className={classes.title}>
-          Want to hide your secrets in a Image? <br />
+          Want To Hide Your Secrets? <br />
           <Text component="span" inherit className={classes.highlight}>
             Use Stegger
           </Text>
@@ -116,8 +116,7 @@ export default function HeroImageBackground() {
         </Container>
 
         <div className={classes.controls}>
-          <Button className={classes.control} variant="white" size="lg">
-            Get started
+          <Button className={classes.control} variant="white" size="lg">Get started
           </Button>
           <Button className={cx(classes.control, classes.secondaryControl)} size="lg">
             Live demo

@@ -13,6 +13,7 @@ import Hero from "./Hero";
         margin: 0,
         height: '100vh',
         width: '100vw',
+        
     },
     wrapper: {
       display: 'flex',
