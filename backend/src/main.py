@@ -1,3 +1,4 @@
+import glob
 import subprocess
 from itertools import product
 import random
@@ -7,6 +8,9 @@ from cv2 import resize, imwrite, dct, idct
 import numpy as np
 from bitstring import BitArray
 from os.path import abspath
+
+import warnings
+warnings.filterwarnings("ignore")
 
 import settings
 from settings import SALT_LEN, DK_LEN, COUNT, COULD_NOT_DECRYPT
@@ -324,8 +328,8 @@ class CoverImageBuilder:
         1) Performs augmentation
         2) Remove exifs
         """
-        augmented_img = self.__augmentor_.get_augmented_image()
-        imageio.imwrite(self.__output_path_, augmented_img)
+        # augmented_img = self.__augmentor_.get_augmented_image()
+        imageio.imwrite(self.__output_path_, self.__original_pic_)
         self.remove_exifs(self.__output_path_)
 
 from base64 import urlsafe_b64encode
@@ -665,21 +669,56 @@ class Steganography:
                 new_map[i, j] = self._unmerge_rgb(pixel_map[i, j])
 
         return new_image
+    
+long_paragraph = """Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas
+                    congue ligula ac quam viverra nec consectetur ante
+                    hendrerit. Donec et mollis dolor. Praesent et diam eget
+                    libero egestas mattis sit amet vitae augue. Nam tincidunt
+                    congue enim, ut porta lorem lacinia consectetur. Donec ut
+                    libero sed arcu vehicula ultricies a non tortor. Lorem
+                    ipsum dolor sit amet, consectetur adipiscing elit. Aenean
+                    ut gravida lorem. Ut turpis felis, pulvinar a semper sed,
+                    adipiscing id dolor. Pellentesque auctor nisi id magna
+                    consequat sagittis. Curabitur dapibus enim sit amet elit
+                    pharetra tincidunt feugiat nisl imperdiet. Ut convallis
+                    libero in urna ultrices accumsan. Donec sed odio eros.
+                    """
+
+def run_embed():
+    files = glob.glob("test_images/*.jpg")
+    for file in files:
+        filename = path.splitext(path.basename(file))[0]
+        output_file = f"test_images/output/{filename}_stego.png"
+        if path.exists(output_file):
+            remove(output_file)
+        print(f"Embedding the Message in {file} and saving it as {output_file}")
+        embed(file, output_file, long_paragraph, "password", 42)
+        
+
+def run_extract():
+    #find all the stego images in the output folder
+    files = glob.glob("test_images/output/*_stego.png")
+    for file in files:
+        filename = path.splitext(path.basename(file))[0]
+        print(f"Extracting the Message from {file}")
+        print(extract(file, "password", 42))
 
 if __name__ == '__main__':
     # remove the output file if it exists
-    if path.exists("test_images/lena_stego.png"):
-        remove("test_images/lena_edited.png")
-        remove("test_images/lena_stego.png")
-    
-    l = embed("test_images/lena.jpg", "test_images/lena_stego.png", "Sidd ", "password", 42)
-    image1 = Image.open("test_images/lena.jpg")
-    image2 = Image.open("test_images/lena_stego.png")
+    # if path.exists("test_images/lena_stego.png"):
+    #     remove("test_images/lena_edited.png")
+    #     remove("test_images/lena_stego.png")
+    run_embed()  
+    run_extract()  
+    # l = embed("test_images/lena.jpg", "test_images/lena_stego.png", "Sidd ", "password", 42)
+    # image1 = Image.open("test_images/lena.jpg")
+    # image2 = Image.open("test_images/lena_stego.png")
 
-    if path.exists("test_images/lena_stego_merged.png"):
-        remove("test_images/lena_stego_merged.png")
-    Steganography().merge(image1, image2).save("test_images/lena_stego_merged.png")
-    print("Extracting the Message")
-    image = Image.open("test_images/lena_stego_merged.png")
-    Steganography().unmerge(image).save("test_images/lena_stego_unmerged.png")
-    print(extract("test_images/lena_stego.png", "password", 42))
+    # if path.exists("test_images/lena_stego_merged.png"):
+    #     remove("test_images/lena_stego_merged.png")
+    # Steganography().merge(image1, image2).save("test_images/lena_stego_merged.png")
+    # print("Extracting the Message")
+    # image = Image.open("test_images/lena_stego_merged.png")
+    # Steganography().unmerge(image).save("test_images/lena_stego_unmerged.png")
+    # print(extract("test_images/lena_stego_unmerged.png", "password", 42))
