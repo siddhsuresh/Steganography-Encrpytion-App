@@ -1,17 +1,13 @@
 import { invoke } from "@tauri-apps/api/tauri";
 import "./App.css";
 import React, { useState } from "react";
-import Header from "./Header";
-import Dropzone from "./Dropzone";
-import { Avatar, BackgroundImage, Button, createStyles, Image, rem } from '@mantine/core';
-import Hero from "./Hero";
-
+import {createStyles, rem } from '@mantine/core';
+import Hero from "./components/Hero";
 
   const useStyles = createStyles((theme) => ({
     body:{
         padding: 0,
         margin: 0,
-        height: '100vh',
         width: '100vw',
         
     },

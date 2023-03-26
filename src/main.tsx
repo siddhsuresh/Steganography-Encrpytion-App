@@ -1,54 +1,46 @@
 import React, { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import Index from "./Index";
-import Header from "./Header";
 import App from "./App";
 import "./styles.css";
+import { MantineProvider } from "@mantine/core";
 
-import {
-  Router,
-  Route,
-  RootRoute,
-} from '@tanstack/router'
+import { Router, Route, RootRoute } from "@tanstack/router";
 
-import {
-  Outlet,
-  RouterProvider,
-} from '@tanstack/react-router'
-
-
+import { Outlet, RouterProvider } from "@tanstack/react-router";
+import {NavbarSimple } from "./components/Navbar";
 
 const rootRoute = new RootRoute({
   component: Root,
-})
+});
 
-const links= [
-  { "link": "/", "label": "Home" },
-  { "link": "/use-app", "label": "Use App" },
-  { "link": "/how-to-use", "label": "How to use" },
-  { "link": "/contact", "label": "Contact Us" }
-]
+const links = [
+  { link: "/", label: "Home" },
+  { link: "/use-app", label: "Use App" },
+  { link: "/how-to-use", label: "How to use" },
+  { link: "/contact", label: "Contact Us" },
+];
 
 function Root() {
   return (
     <>
-      <Header links={links} />
-      <Outlet />
+              <NavbarSimple />
+            <Outlet />
     </>
-  )
+  );
 }
 
 const indexRoute = new Route({
   getParentRoute: () => rootRoute,
-  path: '/',
-  component: Index
-})
+  path: "/",
+  component: Index,
+});
 
 const appRoute = new Route({
   getParentRoute: () => rootRoute,
-  path: '/use-app',
-  component: App
-})
+  path: "/use-app",
+  component: App,
+});
 // const howToUseRoute = new Route({
 //   getParentRoute: () => rootRoute,
 //   path: '/how-to-use',
@@ -60,28 +52,32 @@ const appRoute = new Route({
 //   component: Contact,
 // })
 
-
-
 // Create the route tree using your routes
-const routeTree = rootRoute.addChildren([indexRoute, appRoute])
+const routeTree = rootRoute.addChildren([indexRoute, appRoute]);
 
 // Create the router using your route tree
-const router = new Router({ routeTree })
+const router = new Router({ routeTree });
 
 // Register your router for maximum type safety
-declare module '@tanstack/router' {
+declare module "@tanstack/router" {
   interface Register {
-    router: typeof router
+    router: typeof router;
   }
 }
 
 // Render our app!
-const rootElement = document.getElementById('root')!
+const rootElement = document.getElementById("root")!;
 if (!rootElement.innerHTML) {
-  const root = ReactDOM.createRoot(rootElement)
+  const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <RouterProvider router={router} />
-    </StrictMode>,
-  )
+      <MantineProvider
+        theme={{ colorScheme: "dark" }}
+        withGlobalStyles
+        withNormalizeCSS
+      >
+        <RouterProvider router={router} />
+      </MantineProvider>
+    </StrictMode>
+  );
 }
