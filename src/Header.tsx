@@ -110,6 +110,7 @@ export default function HeaderResponsive({ links }: HeaderResponsiveProps) {
     <Header height={HEADER_HEIGHT} mb={120} className={classes.root}>
 
       <Container className={classes.header}>
+        <h1 style={{color:"#228be6"}}><span style={{fontSize: '3rem'}}>S</span>TEGGER</h1>
         <Group spacing={5} className={classes.links}>
           {items}
         </Group>

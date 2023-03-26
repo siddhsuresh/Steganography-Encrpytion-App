@@ -1,5 +1,7 @@
 import React, { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
+import Index from "./Index";
+import Header from "./Header";
 import App from "./App";
 import "./styles.css";
 
@@ -15,39 +17,53 @@ import {
 } from '@tanstack/react-router'
 
 
+
 const rootRoute = new RootRoute({
   component: Root,
 })
 
+const links= [
+  { "link": "/", "label": "Home" },
+  { "link": "/use-app", "label": "Use App" },
+  { "link": "/how-to-use", "label": "How to use" },
+  { "link": "/contact", "label": "Contact Us" }
+]
+
 function Root() {
   return (
     <>
-      <div>
-      </div>
-      <hr />
+      <Header links={links} />
       <Outlet />
     </>
   )
 }
 
-const aboutRoute = new Route({
-  getParentRoute: () => rootRoute,
-  path: '/about',
-  component: About,
-})
-
-function About() {
-  return <div>Hello from About!</div>
-}
-
 const indexRoute = new Route({
   getParentRoute: () => rootRoute,
   path: '/',
-  component: App,
+  component: Index
 })
 
+const appRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: '/use-app',
+  component: App
+})
+// const howToUseRoute = new Route({
+//   getParentRoute: () => rootRoute,
+//   path: '/how-to-use',
+//   component: HowToUse,
+// })
+// const contactRoute = new Route({
+//   getParentRoute: () => rootRoute,
+//   path: '/contact',
+//   component: Contact,
+// })
+
+
+
 // Create the route tree using your routes
-const routeTree = rootRoute.addChildren([indexRoute, aboutRoute])
+const routeTree = rootRoute.addChildren([indexRoute, appRoute])
 
 // Create the router using your route tree
 const router = new Router({ routeTree })

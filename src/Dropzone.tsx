@@ -18,7 +18,9 @@ export default function Demo() {
 
   return (
     <div>
-      <Dropzone accept={IMAGE_MIME_TYPE} onDrop={setFiles}>
+      <Dropzone accept={IMAGE_MIME_TYPE} onDrop={setFiles} style={{
+        width: "20rem",
+      }}>
         <Text align="center">Drop images here</Text>
       </Dropzone>
 

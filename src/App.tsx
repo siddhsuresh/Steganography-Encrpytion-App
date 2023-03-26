@@ -3,56 +3,67 @@ import "./App.css";
 import React, { useState } from "react";
 import Header from "./Header";
 import Dropzone from "./Dropzone";
-import { Avatar, BackgroundImage, Button, createStyles, Image, rem } from '@mantine/core';
+import { Avatar, BackgroundImage, Button, createStyles, Image, rem, TextInput } from '@mantine/core';
 import Hero from "./Hero";
-const links= [
-    { "link": "/about", "label": "Features" },
-    { "link": "/pricing", "label": "Pricing" },
-    { "link": "/learn", "label": "Learn" },
-    { "link": "/community", "label": "Community" }
-]
 
-  const useStyles = createStyles((theme) => ({
-    body:{
-        padding: 0,
-        margin: 0,
+
+const useStyles = createStyles((theme) => ({
+    body: {
+        position: 'relative',
+        top: -120,
+        padding: "10px",
         height: '100vh',
         width: '100vw',
+        // backgroundColor: "#e0e0e0",
     },
     wrapper: {
-      display: 'flex',
+        display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         border: '1px solid black',
-        
+
     },
-    image:{
+    image: {
         marginLeft: rem(30),
         marginRight: rem(30),
 
     }
-  }));
+}));
 function App() {
     const { classes, theme } = useStyles();
     const [isImage, setIsImage] = useState(false);
-    function submit(){
+    function submit() {
         setIsImage(true);
     }
     return (
         <div className={classes.body}>
-            <Header links={links}/>
             <div style={{
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
             }}>
-              <Hero />
-              <div className="content">
-                <Dropzone />
-                {/* <Image className={classes.image} width={900} height={600} src="./assets/lena.jpg" /> */}
-              </div>
+                <h2 style={{
+                    margin: rem(30),
+                }}>Upload the original image and the secret message</h2>
+                <div style={{
+                    width: "60%",
+                    display: 'flex',
+                    justifyContent: 'space-around',
+                    // borderRadius: "41px",
+                    // background: "#e0e0e0",
+                    // boxShadow:  "5px 5px 28px #c1c1c1,  -5px -5px 28px #ffffff",
+                    padding: rem(10),
+                }}>
+                    <Dropzone />
+                    <TextInput
+                        placeholder="Enter Message Here"
+                        size="xl"
+                        radius="md"
+                        withAsterisk
+                    />
+                </div>
             </div>
             <div className="display" style={{
                 display: 'flex',
@@ -62,22 +73,28 @@ function App() {
                 gap: "10px",
                 margin: rem(30),
             }}>
-              <Image  height={500} fit="contain" src="/src/assets/lena.jpg" />
-              <Button style={{
-                height: "3rem",
-                // width: "3rem",
-                borderRadius: "20px",
-              }}><Avatar src="/src/assets/encrypt-icon.jpg" style={{
-                // height: "1rem",
-                // width:"2rem"
-              }} />
-              </Button>
-              <Image  height={500} fit="contain" src="/src/assets/lena.jpg" />
+                <div>
+                    <h3>Original Image</h3>
+                    <Image height={500} fit="contain" src="/src/assets/lena.jpg" />
+                </div>
+                <Button style={{
+                    height: "3rem",
+                    // width: "3rem",
+                    borderRadius: "20px",
+                }}><Avatar src="/src/assets/encrypt-icon.jpg" style={{
+                    // height: "1rem",
+                    // width:"2rem"
+                }} />
+                </Button>
+                <div>
+                    <h3>Steganographic Image</h3>
+                    <Image height={500} fit="contain" src="/src/assets/lena.jpg" />
+                </div>
             </div>
-        </div>
+        </div >
     );
 }
-  
+
 export default App;
-  
+
 
