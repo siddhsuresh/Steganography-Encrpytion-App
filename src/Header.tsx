@@ -10,6 +10,7 @@ import {
   rem,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { Link } from '@tanstack/react-router';
 
 const HEADER_HEIGHT = rem(60);
 
@@ -92,18 +93,17 @@ export default function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const { classes, cx } = useStyles();
 
   const items = links.map((link) => (
-    <a
+    <Link
       key={link.label}
       href={link.link}
+      to={link.link}
       className={cx(classes.link, { [classes.linkActive]: active === link.link })}
       onClick={(event) => {
-        event.preventDefault();
         setActive(link.link);
-        close();
       }}
     >
       {link.label}
-    </a>
+    </Link>
   ));
 
   return (

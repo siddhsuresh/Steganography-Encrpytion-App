@@ -13,9 +13,3 @@ fn main() {
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
-
-#[tauri::command]
-fn encrypt() -> Result<String, String> {
-  Err("This failed!".into());
-  Ok("This worked!".into());
-}

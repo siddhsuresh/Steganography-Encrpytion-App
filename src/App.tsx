@@ -5,7 +5,6 @@ import Header from "./Header";
 import Dropzone from "./Dropzone";
 import { Avatar, BackgroundImage, Button, createStyles, Image, rem } from '@mantine/core';
 import Hero from "./Hero";
-import ImageDisplay from "./ImageDisplay";
 const links= [
     { "link": "/about", "label": "Features" },
     { "link": "/pricing", "label": "Pricing" },
