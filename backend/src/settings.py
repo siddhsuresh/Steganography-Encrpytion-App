@@ -1,5 +1,3 @@
-__author__ = "Mark Diamantino Caribé"
-
 import numpy as np
 
 ORIGINAL_IMAGE_PATH_DOES_NOT_EXISTS = -601
