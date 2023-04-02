@@ -1,6 +1,6 @@
 import React, { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
-import Index from "./Index";
+import {Index} from "./Index";
 import App from "./App";
 import "./styles.css";
 import { MantineProvider } from "@mantine/core";
@@ -8,7 +8,7 @@ import { MantineProvider } from "@mantine/core";
 import { Router, Route, RootRoute } from "@tanstack/router";
 
 import { Outlet, RouterProvider } from "@tanstack/react-router";
-import {NavbarSimple } from "./components/Navbar";
+import { NavbarSimple } from "./components/Navbar";
 
 const rootRoute = new RootRoute({
   component: Root,
@@ -24,8 +24,7 @@ const links = [
 function Root() {
   return (
     <>
-              <NavbarSimple />
-            <Outlet />
+      <Outlet />
     </>
   );
 }
@@ -72,7 +71,7 @@ if (!rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <MantineProvider
-        theme={{ colorScheme: "dark" }}
+        theme={{ colorScheme: "light" }}
         withGlobalStyles
         withNormalizeCSS
       >
