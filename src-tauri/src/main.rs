@@ -36,22 +36,22 @@ fn greet(name: &str) -> String {
 //     }
 // }
 
-// #[tauri::command]
-// fn stegano(image:String,) -> Result<String, String> {
-//     let file_name = chrono::offset::Local::now()::timestamp().to_string();
-//     let file_extension = ".png";
-//     let file_path = "./tmp/";
-//     let image_path = get_image(image, file_name.to_string(), file_extension.to_string(), file_path.to_string());
-//     let script_path = "./src/python/main.py";
-//     let mut child = Command::new("python3")
-//         .arg(script_path)
-//         .arg(image_path)
-//         .spawn()
-//         .expect("failed to execute process");
-//     let output = child.wait_with_output().expect("failed to wait on child");
-//     println!("output: {}", String::from_utf8(output.stdout).unwrap());
-//     Ok(String::from_utf8(output.stdout).unwrap())
-// }
+#[tauri::command]
+fn stegano(image:String,) -> Result<String, String> {
+    // let file_name = chrono::offset::Local::now()::timestamp().to_string();
+    let file_extension = ".png";
+    let file_path = "./tmp/";
+    let image_path = get_image(image, file_name.to_string(), file_extension.to_string(), file_path.to_string());
+    let script_path = "./src/python/main.py";
+    let mut child = Command::new("python3")
+        .arg(script_path)
+        .arg(image_path)
+        .spawn()
+        .expect("failed to execute process");
+    let output = child.wait_with_output().expect("failed to wait on child");
+    println!("output: {}", String::from_utf8(output.stdout).unwrap());
+    Ok(String::from_utf8(output.stdout).unwrap())
+}
 
 fn main() {
     tauri::Builder::default()

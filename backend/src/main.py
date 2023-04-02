@@ -378,14 +378,17 @@ db.execute(
     "CREATE TABLE IF NOT EXISTS stego (original_image TEXT, stego_image TEXT)"
 )
 
-(pubkey, privkey) = rsa.newkeys(512)
+with open("public.pem", "rb") as publicfile:
+    p = publicfile.read()
+    pubkey = rsa.PublicKey.load_pkcs1(p)
 
+with open("private.pem", "rb") as privatefile:
+    p = privatefile.read()
+    privkey = rsa.PrivateKey.load_pkcs1(p)
 
 def sign(message):
-    # signature = rsa.sign(message, privkey, "SHA-1")
-    # signature = signature.hex()
-    #use hashlib to hash the message
-    signature = hashlib.sha256(message).hexdigest()
+    signature = rsa.sign(message, privkey, "SHA-1")
+    signature = signature.hex()
     return signature
 
 
