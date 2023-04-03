@@ -41,7 +41,7 @@ function App() {
   const [message, setMessage] = useState<string>("");
   const [og_signature, setOgSignature] = useState<string>("");
   useEffect(() => {
-    listen("event-name", (event) => {
+    listen("og", (event) => {
       // event.event is the event name (useful if you want to use a single callback fn for multiple event types)
       // event.payload is the payload object
       console.log(event.payload);
@@ -49,6 +49,12 @@ function App() {
     }).then((unlisten) => {
       // unlisten() will stop listening to the event
     });
+    listen("event-name",(event) => {
+      console.log(event.payload);
+    }).then((unlisten) => {
+      // unlisten() will stop listening to the event
+    }
+    );
   }, []);
   useEffect(() => {
     const reader = new FileReader();
@@ -170,7 +176,11 @@ function App() {
           </svg>
         </button>
       </div>
-      <div className="flex flex-col items-center justify-center w-screen">
+      <div className="p-10 flex flex-col items-center justify-center w-screen">
+        <h2 className="text-2xl font-bold">Steganographic Signature Generated</h2>
+        <p className="text-lg font-medium">
+          {og_signature.message}
+          </p>
         <div className="flex flex-col items-center justify-center w-full">
           <SimpleGrid cols={4} mt={previews.length > 0 ? "xl" : 0}>
             {previews}

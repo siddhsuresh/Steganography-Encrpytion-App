@@ -1,25 +1,16 @@
-import React, { StrictMode } from "react";
+import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import {Index} from "./Index";
 import App from "./App";
 import "./styles.css";
 import { MantineProvider } from "@mantine/core";
-
 import { Router, Route, RootRoute } from "@tanstack/router";
-
 import { Outlet, RouterProvider } from "@tanstack/react-router";
-import { NavbarSimple } from "./components/Navbar";
+import Decrypt from "./Decrypt";
 
 const rootRoute = new RootRoute({
   component: Root,
 });
-
-const links = [
-  { link: "/", label: "Home" },
-  { link: "/use-app", label: "Use App" },
-  { link: "/how-to-use", label: "How to use" },
-  { link: "/contact", label: "Contact Us" },
-];
 
 function Root() {
   return (
@@ -37,9 +28,16 @@ const indexRoute = new Route({
 
 const appRoute = new Route({
   getParentRoute: () => rootRoute,
-  path: "/use-app",
+  path: "/encrypt",
   component: App,
 });
+
+const Decrpt = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/decrypt",
+  component: Decrypt,
+});
+
 // const howToUseRoute = new Route({
 //   getParentRoute: () => rootRoute,
 //   path: '/how-to-use',
@@ -52,7 +50,7 @@ const appRoute = new Route({
 // })
 
 // Create the route tree using your routes
-const routeTree = rootRoute.addChildren([indexRoute, appRoute]);
+const routeTree = rootRoute.addChildren([indexRoute, appRoute,Decrpt]);
 
 // Create the router using your route tree
 const router = new Router({ routeTree });

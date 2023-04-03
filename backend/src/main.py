@@ -447,15 +447,13 @@ def main():
         og_image_sign = sys.argv[4]
         stego_image_sign = db.execute("SELECT stego_image FROM stego WHERE original_image = ?", og_image_sign)
         stego_image_sign = stego_image_sign[0]["stego_image"]
-        print(stego_image_sign)
         with open(output_path, "rb") as image_file:
             encoded_string = base64.b64encode(image_file.read())
         _stego_signature = sign(encoded_string)
-        print(_stego_signature)
         if _stego_signature == stego_image_sign:
             # print("Image is Authentic")
             message = extract(output_path, password, 42)
-            print("Message: " + message)
+            print(str(message))
         else:
             print("Image has been tampered with")
     else:

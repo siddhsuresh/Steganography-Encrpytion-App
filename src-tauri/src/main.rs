@@ -69,6 +69,8 @@ fn steganography(path: &str, message: &str, pass: &str, app: tauri::AppHandle) -
     let message = message.to_string();
     let output_path = path.replace(".png", "_output.png");
     let pass = pass.to_string();
+    // make a copy of output_path
+    let output_path_clone = output_path.clone();
     // let mut pem = File::open("/home/siddharth/Projects/Crypto/backend/src/public.pem").unwrap();
     // let public_key = RsaPublicKey::from_pkcs1_pem(pem)?;
     // let encrypted_pass = public_key.encrypt(pass.as_bytes(), &mut rand::thread_rng())?;
@@ -87,12 +89,51 @@ fn steganography(path: &str, message: &str, pass: &str, app: tauri::AppHandle) -
         println!("output: {:?}", output);
         // og_signature = output.replace("\n", "");
         // my_vec.push(output);
-        app.emit_all("event-name", Payload {
+        app.emit_all("og", Payload {
+            message: output,
+        }).unwrap();
+        // read the output image and send it to the frontend
+        let mut file = File::open(
+            output_path_clone
+        ).unwrap();
+        let mut contents = Vec::new();
+        file.read_to_end(&mut contents).unwrap();
+        let contents = base64::encode(contents);
+        let contents = format!("data:image/png;base64,{}", contents);
+        app.emit_all("stegImage", Payload {
+            message: contents,
+        }).unwrap();
+    });    
+    Ok(())
+}
+
+#[tauri::command]
+fn decrypt(path: &str, pass: &str, image_sign: &str, app: tauri::AppHandle) -> Result<(), String> {
+    let path = path.to_string();
+    let pass = pass.to_string();
+    let image_sign = image_sign.to_string();
+    // let mut pem = File::open("/home/siddharth/Projects/Crypto/backend/src/public.pem").unwrap();
+    // let public_key = RsaPublicKey::from_pkcs1_pem(pem)?;
+    // let encrypted_pass = public_key.encrypt(pass.as_bytes(), &mut rand::thread_rng())?;
+    std::thread::spawn(move || {
+        let output = std::process::Command::new("python3")
+            .arg("/home/siddharth/Projects/Crypto/backend/src/main.py")
+            .arg("-d")
+            .arg(path)
+            .arg(pass)
+            .arg(image_sign)
+            .output()
+            .expect("failed to execute process");
+        println!("output: {:?}", output);
+        let output = String::from_utf8(output.stdout).unwrap();
+        println!("output: {:?}", output);
+        // og_signature = output.replace("\n", "");
+        // my_vec.push(output);
+        app.emit_all("message", Payload {
             message: output,
         }).unwrap();
     });    
     Ok(())
-
 }
 
 fn main() {
@@ -121,7 +162,7 @@ fn main() {
                 .unwrap();
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![greet, save_image, steganography])
+        .invoke_handler(tauri::generate_handler![save_image, steganography, decrypt])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
