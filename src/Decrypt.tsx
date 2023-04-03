@@ -187,7 +187,7 @@ function Decrypt() {
           {message.message}
           </p>
         <div className="flex flex-col items-center justify-center w-full">
-          <SimpleGrid cols={4} mt={previews.length > 0 ? "xl" : 0}>
+          <SimpleGrid cols={1} mt={previews.length > 0 ? "xl" : 0}>
             {previews}
           </SimpleGrid>
         </div>
