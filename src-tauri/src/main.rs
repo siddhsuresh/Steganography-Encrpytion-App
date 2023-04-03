@@ -125,6 +125,14 @@ fn decrypt(path: &str, pass: &str, image_sign: &str, app: tauri::AppHandle) -> R
             .output()
             .expect("failed to execute process");
         println!("output: {:?}", output);
+        let error = String::from_utf8(output.stderr).unwrap();
+        //if there is an error, send it to the frontend
+        if error != "" {
+            app.emit_all("message", Payload {
+                message: "Image or the signature has been tampered with!".into(),
+            }).unwrap();
+            return;
+        } 
         let output = String::from_utf8(output.stdout).unwrap();
         println!("output: {:?}", output);
         // og_signature = output.replace("\n", "");

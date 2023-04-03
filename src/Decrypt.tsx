@@ -36,6 +36,7 @@ function Decrypt() {
   const [filePath, setFilePath] = useState<string>("");
   const [ogSign, setogSign] = useState<string>("");
   const [message, setMessage] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   useEffect(() => {
     listen("message", (event) => {
       // event.event is the event name (useful if you want to use a single callback fn for multiple event types)
@@ -123,12 +124,24 @@ function Decrypt() {
             radius="md"
             withAsterisk
           />
+          <TextInput
+            placeholder="Enter Password Here"
+            size="xl"
+            onChange={(e) => {
+              setPassword(e.currentTarget.value);
+            }}
+            radius="md"
+            withAsterisk
+            style={{
+              marginBlock: rem(10),
+            }}
+          />
         </div>
         <button
           onClick={() => {
             invoke("decrypt", {
               path: filePath,
-              pass: "password",
+              pass: password,
               imageSign: ogSign,
             })
               .then((res) => {

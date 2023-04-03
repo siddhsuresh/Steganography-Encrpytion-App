@@ -40,6 +40,7 @@ function App() {
   const [filePath, setFilePath] = useState<string>("");
   const [message, setMessage] = useState<string>("");
   const [og_signature, setOgSignature] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   useEffect(() => {
     listen("og", (event) => {
       // event.event is the event name (useful if you want to use a single callback fn for multiple event types)
@@ -144,13 +145,25 @@ function App() {
               marginBlock: rem(10),
             }}
           />
+          <TextInput
+            placeholder="Enter Password Here"
+            size="xl"
+            onChange={(e) => {
+              setPassword(e.currentTarget.value);
+            }}
+            radius="md"
+            withAsterisk
+            style={{
+              marginBlock: rem(10),
+            }}
+          />
         </div>
         <button
           onClick={() => {
             invoke("steganography", {
               path: filePath,
               message: message,
-              pass: "password",
+              pass: password,
             })
               .then((res) => {
                 console.log(res);
