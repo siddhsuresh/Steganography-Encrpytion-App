@@ -60,6 +60,7 @@ function App() {
     );
     listen("stegImage",(event) => {
       console.log(event.payload);
+      //@ts-ignore
       setStegImage(event.payload.message as string);
     }).then((unlisten) => {
       // unlisten() will stop listening to the event
@@ -201,6 +202,7 @@ function App() {
       <div className="p-10 flex flex-col items-center justify-center w-screen">
         <h2 className="text-2xl font-bold">Steganographic Signature Generated</h2>
         <p className="text-lg font-medium">
+          {/* @ts-ignore */}
           {og_signature.message}
           </p>
         <div className="flex flex-col items-center justify-center w-full">

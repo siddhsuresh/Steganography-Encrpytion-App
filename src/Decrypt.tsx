@@ -184,6 +184,7 @@ function Decrypt() {
       <div className="p-10 flex flex-col items-center justify-center w-screen gap-5">
       <h2 className="text-2xl font-bold">Hidden Text In Image</h2>
         <p className="text-lg font-medium">
+            {/* @ts-ignore */}
           {message.message}
           </p>
         <div className="flex flex-col items-center justify-center w-full">
