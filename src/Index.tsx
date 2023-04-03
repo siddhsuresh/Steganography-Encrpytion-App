@@ -30,6 +30,7 @@ export function Index () {
     return (
         <section>
             <div className="max-w-screen-xl mx-auto px-4 py-28 gap-12 text-gray-600 md:px-8 xl:flex xl:flex-col">
+            <div className='-z-10 absolute inset-0 blur-xl h-[580px]' style={{ background: "linear-gradient(143.6deg, rgba(192, 132, 252, 0.2) 20.79%, rgba(39, 225, 193,0.5) 42.92%, rgba(204, 171, 238, 0) 70.35%)" }}></div>
                 <div className="space-y-5 max-w-2xl mx-auto text-center">
                     <div className="flex flex-wrap items-center justify-center gap-6">
                         {
@@ -45,7 +46,7 @@ export function Index () {
                         End to End Secure File Sharing Using Image Steganography
                     </h1>
                     <p className="max-w-xl mx-auto text-xl">
-                        CSE3076 Cryptography Review 02
+                        CSE3076 Cryptography J Component Review
                     </p>
                     <div className="items-center justify-center gap-x-3 space-y-3 sm:flex sm:space-y-0">
                         <a href="/use-app" className="flex items-center justify-center gap-x-2 py-2 px-4 text-white font-medium bg-gray-800 duration-150 hover:bg-gray-700 active:bg-gray-900 rounded-lg md:inline-flex">
