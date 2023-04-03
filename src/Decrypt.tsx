@@ -78,7 +78,11 @@ function Decrypt() {
   });
 
   return (
-    <div className={classes.body}>
+    <div className={classes.body} style={{
+      background: "linear-gradient(143.6deg, rgba(0, 0, 0, 0.0) 20.79%, rgba(39, 225, 193,0.5) 42.92%, rgba(204, 171, 238, 0) 70.35%)",
+      height:"fit-content",
+      minHeight:"100vh",
+    }}>
       <div
         style={{
           display: "flex",
@@ -87,30 +91,34 @@ function Decrypt() {
           justifyContent: "center",
         }}
       >
-        <div>
+        <div style={{
+              width:"50vw",
+          }}>
           <div className="flex flex-wrap items-center justify-center">
-            <a href="/" className="flex items-center">
+            <a href="/" className="flex items-center justify-center gap-x-2 py-2 px-4 text-gray-700 hover:text-gray-500 font-medium duration-150 active:bg-gray-100 border rounded-lg md:inline-flex">
               Back to Home
             </a>
-            <h2
+          </div>
+            <h2 className="text-4xl text-gray-800 font-extrabold mx-auto md:text-5xl"
               style={{
                 margin: rem(30),
+                textAlign: "center",
+                padding:"20px",
               }}
             >
               Upload the Steganographic Image
             </h2>
-          </div>
         </div>
         <div
           style={{
-            width: "60%",
-            display: "flex",
-            justifyContent: "space-around",
             padding: rem(10),
           }}
         >
           <Dropzone accept={IMAGE_MIME_TYPE} onDrop={setFiles}>
-            <div className="flex flex-col items-center justify-center">
+            <div className="flex flex-col items-center justify-center" style={{
+              height: "10rem",
+              width: "40rem",
+            }}>
               <h3>Upload Image</h3>
               <p>Drag and drop image here or click to upload</p>
             </div>
@@ -123,6 +131,9 @@ function Decrypt() {
             }}
             radius="md"
             withAsterisk
+            style={{
+              marginBlock: rem(10),
+            }}
           />
           <TextInput
             placeholder="Enter Password Here"
@@ -153,7 +164,7 @@ function Decrypt() {
           }}
           className="flex items-center justify-center gap-x-2 py-2 px-4 text-white font-medium bg-gray-800 duration-150 hover:bg-gray-700 active:bg-gray-900 rounded-lg md:inline-flex"
         >
-          Submit
+          Decrypt
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
@@ -174,7 +185,6 @@ function Decrypt() {
           {message.message}
           </p>
         <div className="flex flex-col items-center justify-center w-full">
-          <h2 className="text-2xl font-bold">Preview</h2>
           <SimpleGrid cols={4} mt={previews.length > 0 ? "xl" : 0}>
             {previews}
           </SimpleGrid>
