@@ -378,11 +378,11 @@ db.execute(
     "CREATE TABLE IF NOT EXISTS stego (original_image TEXT, stego_image TEXT)"
 )
 
-with open("public.pem", "rb") as publicfile:
+with open("/home/siddharth/Projects/Crypto/backend/src/public.pem", "rb") as publicfile:
     p = publicfile.read()
     pubkey = rsa.PublicKey.load_pkcs1(p)
 
-with open("private.pem", "rb") as privatefile:
+with open("/home/siddharth/Projects/Crypto/backend/src/private.pem", "rb") as privatefile:
     p = privatefile.read()
     privkey = rsa.PrivateKey.load_pkcs1(p)
 
@@ -423,9 +423,6 @@ def main():
             encoded_string = base64.b64encode(image_file.read())
         with open(output_path, "rb") as image_file:
             encoded_string2 = base64.b64encode(image_file.read())
-        
-        with open("original_image.txt", "wb") as file:
-            file.write(encoded_string2)
         og_signature = sign(encoded_string)
         stego_signature = sign(encoded_string2)
         if db.execute("SELECT * FROM stego WHERE original_image = ?", og_signature):
@@ -440,9 +437,9 @@ def main():
                 og_signature,
                 stego_signature,
             )
-        print("Message Encoded Successfully")
-        print("Original Image Signature: " + str(og_signature))
-        print("Stego Image Signature: " + str(stego_signature))
+        # print("Message Encoded Successfully")
+        print(str(og_signature))
+        # print("Stego Image Signature: " + str(stego_signature))
         
     elif sys.argv[1] == "-d":
         output_path = sys.argv[2]
@@ -456,7 +453,7 @@ def main():
         _stego_signature = sign(encoded_string)
         print(_stego_signature)
         if _stego_signature == stego_image_sign:
-            print("Image is Authentic")
+            # print("Image is Authentic")
             message = extract(output_path, password, 42)
             print("Message: " + message)
         else:

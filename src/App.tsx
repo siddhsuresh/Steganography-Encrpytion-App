@@ -1,19 +1,28 @@
 import "./App.css";
-import { useState } from "react";
-import Dropzone from "./components/Dropzone";
+import { useCallback, useEffect, useState } from "react";
+import { invoke } from "@tauri-apps/api/tauri";
+import { emit, listen } from '@tauri-apps/api/event'
+
+const unlisten = await listen('event-name', (event) => {
+  // event.event is the event name (useful if you want to use a single callback fn for multiple event types)
+  // event.payload is the payload object
+  console.log(event.payload)
+})
+
+// import Dropzone from "./components/Dropzone";
+import { Dropzone, IMAGE_MIME_TYPE, FileWithPath } from "@mantine/dropzone";
 import {
   Avatar,
   Button,
   createStyles,
   Image,
   rem,
+  SimpleGrid,
   TextInput,
 } from "@mantine/core";
 
 const useStyles = createStyles((theme) => ({
   body: {
-    position: "relative",
-    top: -120,
     padding: "10px",
     height: "100vh",
     width: "100vw",
@@ -31,11 +40,40 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 function App() {
-  const { classes, theme } = useStyles();
-  const [isImage, setIsImage] = useState(false);
-  function submit() {
-    setIsImage(true);
-  }
+  const { classes } = useStyles();
+  const [files, setFiles] = useState<FileWithPath[]>([]);
+  const [filePath, setFilePath] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
+  useEffect(() => {
+    const reader = new FileReader();
+    const file = files[0];
+    if(!file) return;
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      invoke("save_image", {
+        image: reader.result,
+      })
+        .then((res) => {
+          console.log(res);
+          setFilePath(res as string);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+  }, [files]);
+
+  const previews = files.map((file, index) => {
+    const imageUrl = URL.createObjectURL(file);
+    return (
+      <Image
+        key={index}
+        src={imageUrl}
+        imageProps={{ onLoad: () => URL.revokeObjectURL(imageUrl) }}
+      />
+    );
+  });
+
   return (
     <div className={classes.body}>
       <div
@@ -46,68 +84,64 @@ function App() {
           justifyContent: "center",
         }}
       >
-        <h2
-          style={{
-            margin: rem(30),
-          }}
-        >
-          Upload the original image and the secret message
-        </h2>
+        <div>
+          <div className="flex flex-wrap items-center justify-center">
+            <a href="/" className="flex items-center">
+              Back to Home
+            </a>
+            <h2
+              style={{
+                margin: rem(30),
+              }}
+            >
+              Upload the original image and the secret message
+            </h2>
+          </div>
+        </div>
         <div
           style={{
             width: "60%",
             display: "flex",
             justifyContent: "space-around",
-            // borderRadius: "41px",
-            // background: "#e0e0e0",
-            // boxShadow:  "5px 5px 28px #c1c1c1,  -5px -5px 28px #ffffff",
             padding: rem(10),
           }}
         >
-          <Dropzone />
+          <Dropzone accept={IMAGE_MIME_TYPE} onDrop={setFiles}>
+            <div className="flex flex-col items-center justify-center">
+              <h3>Upload Image</h3>
+              <p>Drag and drop image here or click to upload</p>
+            </div>
+          </Dropzone>
           <TextInput
             placeholder="Enter Message Here"
             size="xl"
+            onChange={(e) => {
+              setMessage(e.currentTarget.value);
+            }}
             radius="md"
             withAsterisk
           />
         </div>
+        <Button onClick={() => {
+          invoke("steganography", {
+            path: filePath,
+            message: message,
+            pass: "password"
+          })
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }}>Submit</Button>
       </div>
-      <div
-        className="display"
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "10px",
-          margin: rem(30),
-        }}
-      >
-        <div>
-          <h3>Original Image</h3>
-          <Image height={300} fit="contain" src="/src/assets/lena.jpg" />
-        </div>
-        <Button
-          style={{
-            height: "3rem",
-            // width: "3rem",
-            borderRadius: "20px",
-          }}
-        >
-          <Avatar
-            src="/src/assets/encrypt-icon.jpg"
-            style={
-              {
-                // height: "1rem",
-                // width:"2rem"
-              }
-            }
-          />
-        </Button>
-        <div>
-          <h3>Steganographic Image</h3>
-          <Image height={300} fit="contain" src="/src/assets/lena.jpg" />
+      <div className="flex flex-col items-center justify-center w-screen">
+        <div className="flex flex-col items-center justify-center w-full">
+          <h2 className="text-2xl font-bold">Preview</h2>
+          <SimpleGrid cols={4} mt={previews.length > 0 ? "xl" : 0}>
+            {previews}
+          </SimpleGrid>
         </div>
       </div>
     </div>
