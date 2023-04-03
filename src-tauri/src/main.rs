@@ -76,7 +76,7 @@ fn steganography(path: &str, message: &str, pass: &str, app: tauri::AppHandle) -
     // let encrypted_pass = public_key.encrypt(pass.as_bytes(), &mut rand::thread_rng())?;
     std::thread::spawn(move || {
         let output = std::process::Command::new("python")
-            .arg("D:\ Steganography-Encrpytion-App-main\ backend\ src\ main.py")
+            .arg("D:\\Steganography-Encrpytion-App-main\\backend\\src\\main.py")
             .arg("-e")
             .arg(path)
             .arg(output_path)
@@ -117,7 +117,7 @@ fn decrypt(path: &str, pass: &str, image_sign: &str, app: tauri::AppHandle) -> R
     // let encrypted_pass = public_key.encrypt(pass.as_bytes(), &mut rand::thread_rng())?;
     std::thread::spawn(move || {
         let output = std::process::Command::new("python")
-            .arg("D:\ Steganography-Encrpytion-App-main\ backend\ src\ main.py")
+            .arg("D:\\Steganography-Encrpytion-App-main\\backend\\src\\main.py")
             .arg("-d")
             .arg(path)
             .arg(pass)
