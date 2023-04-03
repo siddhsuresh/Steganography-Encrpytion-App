@@ -2,6 +2,7 @@ import "./App.css";
 import { useCallback, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
 import { emit, listen } from "@tauri-apps/api/event";
+import { PasswordInput } from '@mantine/core';
 
 // import Dropzone from "./components/Dropzone";
 import { Dropzone, IMAGE_MIME_TYPE, FileWithPath } from "@mantine/dropzone";
@@ -41,6 +42,7 @@ function App() {
   const [message, setMessage] = useState<string>("");
   const [og_signature, setOgSignature] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [stegImage, setStegImage] = useState<string>("");
   useEffect(() => {
     listen("og", (event) => {
       // event.event is the event name (useful if you want to use a single callback fn for multiple event types)
@@ -52,6 +54,13 @@ function App() {
     });
     listen("event-name",(event) => {
       console.log(event.payload);
+    }).then((unlisten) => {
+      // unlisten() will stop listening to the event
+    }
+    );
+    listen("stegImage",(event) => {
+      console.log(event.payload);
+      setStegImage(event.payload.message as string);
     }).then((unlisten) => {
       // unlisten() will stop listening to the event
     }
@@ -145,7 +154,7 @@ function App() {
               marginBlock: rem(10),
             }}
           />
-          <TextInput
+          <PasswordInput
             placeholder="Enter Password Here"
             size="xl"
             onChange={(e) => {
@@ -195,8 +204,9 @@ function App() {
           {og_signature.message}
           </p>
         <div className="flex flex-col items-center justify-center w-full">
-          <SimpleGrid cols={4} mt={previews.length > 0 ? "xl" : 0}>
+          <SimpleGrid cols={2} mt={previews.length > 0 ? "xl" : 0}>
             {previews}
+            <img src={stegImage}/>
           </SimpleGrid>
         </div>
       </div>

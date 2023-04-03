@@ -2,6 +2,8 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
 import { listen } from "@tauri-apps/api/event";
+import { PasswordInput } from '@mantine/core';
+
 
 import { Dropzone, IMAGE_MIME_TYPE, FileWithPath } from "@mantine/dropzone";
 import {
@@ -135,7 +137,7 @@ function Decrypt() {
               marginBlock: rem(10),
             }}
           />
-          <TextInput
+          <PasswordInput
             placeholder="Enter Password Here"
             size="xl"
             onChange={(e) => {
