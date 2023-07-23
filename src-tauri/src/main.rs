@@ -18,7 +18,6 @@ struct Payload {
   message: String,
 }
 
-#[tauri::command]
 fn save_image(window: Window,image: &str) -> Result<String, String> {
     let mut image = image.to_string();
     image.retain(|c| !c.is_whitespace());
